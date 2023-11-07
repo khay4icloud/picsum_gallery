@@ -47,6 +47,7 @@ class _GalleryPageState extends State<GalleryPage> {
         title: const Text('Picsum Pagination'),
       ),
       body: ListView.builder(
+        cacheExtent: 99999,
         controller: _scrollController,
         itemCount: _totalImageList.length,
         itemBuilder: (BuildContext context, int index) {
@@ -54,7 +55,7 @@ class _GalleryPageState extends State<GalleryPage> {
             children: [
               ListTile(
                 title: Text(
-                    '${index + 1}. ${_totalImageList[index].author} current page = $_currentPage'),
+                    '${index + 1}. ${_totalImageList[index].author} - page = $_currentPage'),
               ),
               Image.network(_totalImageList[index].downloadUrl)
             ],

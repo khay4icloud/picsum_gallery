@@ -1,5 +1,7 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:picsum_gallery/gallery_page.dart';
+import 'package:picsum_gallery/login_page.dart';
 
 void main() {
   runApp(const PicSumGallery());
@@ -19,8 +21,14 @@ class PicSumGallery extends StatelessWidget {
           backgroundColor: Colors.blue,
         ),
       ),
-      home: GalleryPage(),
-      routes: const {},
+      home: AnimatedSplashScreen(
+        splash: 'assets/camera.gif',
+        nextScreen: LoginPage(),
+        splashTransition: SplashTransition.rotationTransition,
+      ),
+      routes: {
+        '/gallery': (context) => GalleryPage(),
+      },
     );
   }
 }
