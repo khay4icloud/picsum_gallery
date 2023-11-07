@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:picsum_gallery/login_page.dart';
+import 'package:picsum_gallery/gallery_page.dart';
 
 void main() {
   runApp(const PicSumGallery());
@@ -19,7 +19,7 @@ class PicSumGallery extends StatelessWidget {
           backgroundColor: Colors.blue,
         ),
       ),
-      home: LoginPage(),
+      home: GalleryPage(),
       routes: const {},
     );
   }
