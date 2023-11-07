@@ -166,13 +166,8 @@ class LoginPage extends StatelessWidget {
 
   Future<void> loginUser(BuildContext context) async {
     if (_formkey.currentState != null && _formkey.currentState!.validate()) {
-      print(usernameController.text);
-      print(passwordController.text);
       await context.read<AuthService>().loginUser(usernameController.text);
-      print('Login Successful!');
       Navigator.pushReplacementNamed(context, '/gallery');
-    } else {
-      print('Login not Successful');
     }
   }
 }

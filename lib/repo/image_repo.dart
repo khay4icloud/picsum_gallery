@@ -27,7 +27,6 @@ class PicsumImageRepository {
     } on FormatException {
       throw Exception('Bad response format! :(');
     } catch (error) {
-      print(error);
       throw Exception('Unknown Error');
     }
   }

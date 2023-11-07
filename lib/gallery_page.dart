@@ -49,7 +49,6 @@ class _GalleryPageState extends State<GalleryPage> {
 
   void logoutUserOnTimer() {
     context.read<AuthService>().logoutUser();
-    print('user logged out');
     _rootTimer.cancel();
     Navigator.pushReplacementNamed(context, '/');
   }
@@ -129,7 +128,6 @@ class _GalleryPageState extends State<GalleryPage> {
     } on FormatException {
       throw Exception('Bad response format! :(');
     } catch (error) {
-      print(error);
       throw Exception('Unknown Error');
     }
   }
