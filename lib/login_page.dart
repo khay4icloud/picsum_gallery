@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:picsum_gallery/Services/auth_service.dart';
 import 'package:picsum_gallery/widgets/login_text_field.dart';
+import 'package:provider/provider.dart';
 import 'package:social_media_buttons/social_media_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -151,8 +153,8 @@ class LoginPage extends StatelessWidget {
           ),
         ),
         ElevatedButton(
-            onPressed: () {
-              loginUser(context);
+            onPressed: () async {
+              await loginUser(context);
             },
             child: const Text(
               'Login',
@@ -162,10 +164,11 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void loginUser(BuildContext context) {
+  Future<void> loginUser(BuildContext context) async {
     if (_formkey.currentState != null && _formkey.currentState!.validate()) {
       print(usernameController.text);
       print(passwordController.text);
+      await context.read<AuthService>().loginUser(usernameController.text);
       print('Login Successful!');
       Navigator.pushReplacementNamed(context, '/gallery');
     } else {

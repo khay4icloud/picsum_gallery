@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:picsum_gallery/Services/auth_service.dart';
 import 'package:picsum_gallery/models/picsum_image_model.dart';
+import 'package:provider/provider.dart';
 
 class GalleryPage extends StatefulWidget {
   GalleryPage({super.key});
@@ -17,11 +20,38 @@ class _GalleryPageState extends State<GalleryPage> {
   int _currentPage = 1;
   final List<PicsumImage> _totalImageList = [];
 
+  int _start = 1;
+  Timer _rootTimer = Timer(const Duration(milliseconds: 1), () {});
+
+  void startTimer() {
+    const oneMin = Duration(minutes: 1);
+    _rootTimer = Timer.periodic(oneMin, (timer) {
+      if (_start == 0) {
+        setState(() {
+          logoutUserOnTimer();
+          timer.cancel();
+        });
+      } else {
+        setState(() {
+          _start--;
+        });
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    startTimer();
     _scrollController.addListener(_loadMore);
     getNetworkImages(_currentPage);
+  }
+
+  void logoutUserOnTimer() {
+    context.read<AuthService>().logoutUser();
+    print('user logged out');
+    _rootTimer.cancel();
+    Navigator.pushReplacementNamed(context, '/');
   }
 
   @override
@@ -42,9 +72,19 @@ class _GalleryPageState extends State<GalleryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final username = context.watch<AuthService>().getUserName();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Picsum Pagination'),
+        title: Text("Hi $username!"),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                context.read<AuthService>().logoutUser();
+                Navigator.pushReplacementNamed(context, '/');
+              },
+              icon: const Icon(Icons.logout)),
+        ],
       ),
       body: ListView.builder(
         cacheExtent: 99999,
