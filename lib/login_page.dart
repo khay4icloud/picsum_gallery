@@ -33,7 +33,7 @@ class LoginPage extends StatelessWidget {
                       child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _buildForm(),
+                      _buildForm(context),
                       const SizedBox(height: 50),
                       _buildFooter(),
                     ],
@@ -47,7 +47,7 @@ class LoginPage extends StatelessWidget {
                 children: [
                   _buildHeader(),
                   const SizedBox(height: 24),
-                  _buildForm(),
+                  _buildForm(context),
                   const SizedBox(height: 24),
                   _buildFooter(),
                 ],
@@ -118,7 +118,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _buildForm() {
+  Widget _buildForm(context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -151,7 +151,9 @@ class LoginPage extends StatelessWidget {
           ),
         ),
         ElevatedButton(
-            onPressed: loginUser,
+            onPressed: () {
+              loginUser(context);
+            },
             child: const Text(
               'Login',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
@@ -160,11 +162,12 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void loginUser() {
+  void loginUser(BuildContext context) {
     if (_formkey.currentState != null && _formkey.currentState!.validate()) {
       print(usernameController.text);
       print(passwordController.text);
       print('Login Successful!');
+      Navigator.pushReplacementNamed(context, '/gallery');
     } else {
       print('Login not Successful');
     }
