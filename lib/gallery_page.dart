@@ -91,14 +91,36 @@ class _GalleryPageState extends State<GalleryPage> {
         controller: _scrollController,
         itemCount: _totalImageList.length,
         itemBuilder: (BuildContext context, int index) {
-          return Column(
-            children: [
-              ListTile(
-                title: Text(
-                    '${index + 1}. ${_totalImageList[index].author} - page = $_currentPage'),
-              ),
-              Image.network(_totalImageList[index].downloadUrl)
-            ],
+          double reducedImgHeight = (_totalImageList[index].height -
+              (_totalImageList[index].height * (75 / 100)));
+          double reducedImgWidth = (_totalImageList[index].width -
+              (_totalImageList[index].width * (75 / 100)));
+          return Card(
+            borderOnForeground: true,
+            child: Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text(
+                        '${index + 1}. ${_totalImageList[index].author} - page = $_currentPage'),
+                    subtitle:
+                        Text('size: $reducedImgHeight x $reducedImgWidth'),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Image.network(
+                      _totalImageList[index].downloadUrl,
+                      height: 150,
+                      width: 300,
+                      cacheHeight: reducedImgHeight.round(),
+                      cacheWidth: reducedImgWidth.round(),
+                    ),
+                  ),
+                )
+              ],
+            ),
           );
         },
       ),
